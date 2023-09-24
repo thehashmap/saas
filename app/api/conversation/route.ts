@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { Configuration, OpenAIApi } from "openai";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -9,6 +11,8 @@ const openai = new OpenAIApi(configuration);
 
 export async function POST(req: Request) {
   try {
+    const session = await getServerSession(authOptions);
+    console.log(session);
     const userId = true; // static
     const body = await req.json();
     const { messages } = body;
